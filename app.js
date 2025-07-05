@@ -14,16 +14,15 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  User.findById('6867f7a02a52f398c3c0161e')
+  User.findById('5bab316ce0a7c75f783cb8a8')
     .then(user => {
-      if (user) {
-        req.user = user;
-      }
+      req.user = user;
       next();
     })
     .catch(err => console.log(err));
@@ -31,6 +30,7 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 app.use(errorController.get404);
 
@@ -40,13 +40,13 @@ mongoose.connect
     User.findOne().then(user => {
       if (!user) {
         const user = new User({
-          name: 'jai',
+          name: 'Jai',
           email: 'imjai@gmail.com',
           cart: {
             items: []
           }
         });
-        user.save(); 
+        user.save();
       }
     });
     app.listen(4000);
